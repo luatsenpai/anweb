@@ -141,7 +141,7 @@ module RPG
         damage_string = value.to_s
       end
       bitmap = Bitmap.new(160, 48)
-      bitmap.font.name = "Arial Black"
+      bitmap.font.name = "mkxpvi"
       bitmap.font.size = 32
       bitmap.font.color.set(0, 0, 0)
       bitmap.draw_text(-1, 12-1, 160, 36, damage_string, 1)
