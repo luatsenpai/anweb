@@ -3,7 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="js/localforage.min.js"></script>
+    <script src="js/drive.js"></script>
+    <script src="js/dpad.js"></script>
     <script src="gameasync/mapping.js"></script>
 
     <title>MKXP</title>
@@ -90,6 +94,46 @@
           padding: 3px 10px;
           border-top-right-radius: 5px;
       }
+       #dpad, #apad {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 30vh; max-height: 30vw;
+            width: 30vh; max-width: 30vw;
+            transform: translate(55%, -5%);
+        }
+
+        #apad {
+            right: 0; left: unset;
+            transform: unset;
+            width: 15vh; max-width: 15vw;
+        }
+
+        #dpad *, #apad * {
+            position: absolute;
+            height: 15vh; max-height: 15vw;
+            width: 15vh; max-width: 15vw;
+            background-color: gray;
+            opacity: 0.3;
+        }
+
+        #apad * {
+            border-radius: 50%;
+        }
+
+        #d-up { transform: translateY(-100%); }
+        #d-left { transform: translateX(-100%); }
+        #d-down { transform: translateY(100%); }
+        #d-right { transform: translateX(100%); }
+        #ap-b { transform: translate(-130%, 90%); }
+        #ap-c { transform: translate(-15%, -25%); }
+        #ap-a, #ap-ka {
+            height: 7vh; max-height: 7vw;
+            width: 7vh; max-width: 7vw;
+            top: 50%;
+            transform: translate(60%, -30%);
+        }
+        #ap-ka {
+            transform: translate(-20%, 70%);
     </style>
   </head>
   <body>
@@ -100,6 +144,22 @@
         <div id="progress">Loading ...</div>
     
         <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1 width="640" height="480"></canvas>
+
+        <div id="dpad">
+            <div id="d-up"></div>
+            <div id="d-right"></div>
+            <div id="d-down"></div>
+            <div id="d-left"></div>
+            <div id="d-pl"></div>
+        </div>
+
+        <div id="apad">
+            <div id="ap-c"></div>
+            <div id="ap-b"></div>
+            <div id="ap-a"></div>
+            <div id="ap-ka"></div>
+        </div>
+
     </div>
 
     <div onclick="fullscreen()" id="fullscreen">
@@ -291,6 +351,22 @@
               document.body.appendChild(s);
           });
       }, 500);
+        if (!is_touch_device()) {
+            document.getElementById('dpad').style.display = 'none';
+            document.getElementById('apad').style.display = 'none';
+        }
+
+        // Add all bindings
+        bindKey('d-up', 38);
+        bindKey('d-right', 39);
+        bindKey('d-down', 40);
+        bindKey('d-left', 37);
+        bindKey('ap-c', 67);
+        bindKey('ap-b', 88);
+        bindKey('ap-a', 90);
+        bindKey('ap-ka', 65);
+
+        resize();
     </script>
 
     <!-- <script async type="text/javascript" src="mkxp.js"></script> -->
